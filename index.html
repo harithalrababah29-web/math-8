@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل التميز والتحفيز – قسم الرياضيات | مدرسة عبدالله بن علي المسند الإعدادية للبنين</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- SheetJS (xlsx) for Excel Import & Export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- Canvas Confetti for Celebration Effects -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Chart.js for Statistics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        qatar: {
+                            maroon: '#8A1538',
+                            dark: '#5c0c24',
+                            light: '#fcf2f4',
+                            accent: '#a81c46',
+                            gold: '#D4AF37',
+                            goldHover: '#B59227'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+        .qatar-pattern {
+            background-color: #8A1538;
+            background-image: radial-gradient(#a81c46 1px, transparent 1px), radial-gradient(#a81c46 1px, #8A1538 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #FFE259 0%, #FFA751 100%);
+        }
+        .maroon-gradient {
+            background: linear-gradient(135deg, #8A1538 0%, #5c0c24 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .podium-1 {
+            height: 180px;
+            background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
+        }
+        .podium-2 {
+            height: 140px;
+            background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+        }
+        .podium-3 {
+            height: 110px;
+            background: linear-gradient(180deg, #fed7aa 0%, #f97316 100%);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8A1538;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-qatar-maroon selection:text-white">
+
+    <!-- Header with Qatari Branding -->
+    <header class="qatar-pattern text-white shadow-xl relative overflow-hidden border-b-4 border-qatar-gold">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4 text-center md:text-right">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white p-2 rounded-2xl shadow-lg flex items-center justify-center border-2 border-qatar-gold">
+                        <i class="fa-solid fa-square-root-variable text-3xl sm:text-4xl text-qatar-maroon"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 justify-center md:justify-start">
+                            <span class="bg-qatar-gold/20 text-qatar-gold border border-qatar-gold/40 text-xs font-bold px-2.5 py-0.5 rounded-full">دولة قطر 🇶🇦</span>
+                            <span class="bg-white/10 text-slate-100 text-xs font-medium px-2.5 py-0.5 rounded-full">العام الدراسي 2026/2025</span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold mt-1 tracking-tight">سجل التميز والتحفيز – قسم الرياضيات</h1>
+                        <p class="text-slate-200 text-sm font-medium mt-1">
+                            مدرسة عبدالله بن علي المسند الإعدادية للبنين <span class="text-qatar-gold mx-1">•</span> قسم الرياضيات <span class="text-qatar-gold mx-1">•</span> الصف الثامن
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex flex-wrap items-center gap-2 justify-center">
+                    <button onclick="switchTab('roster')" id="tab-roster" class="nav-btn bg-white text-qatar-maroon font-bold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-users"></i> السجل العام للطلاب
+                    </button>
+                    <button onclick="switchTab('leaderboard')" id="tab-leaderboard" class="nav-btn bg-qatar-dark/60 hover:bg-white/20 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-2 text-sm border border-white/10">
+                        <i class="fa-solid fa-trophy text-qatar-gold"></i> لوحة المتصدرين
+                    </button>
+                    <button onclick="switchTab('analytics')" id="tab-analytics" class="nav-btn bg-qatar-dark/60 hover:bg-white/20 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-2 text-sm border border-white/10">
+                        <i class="fa-solid fa-chart-pie"></i> الإحصائيات
+                    </button>
+                    <button onclick="openPresenterModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-extrabold px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2 text-sm transform hover:scale-105">
+                        <i class="fa-solid fa-tv"></i> وضع العرض للطلاب
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8">
+
+        <!-- Top Notice & Action Bar -->
+        <div class="bg-emerald-50 border-r-4 border-emerald-600 p-4 rounded-xl shadow-sm mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between">
+            <div class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-2xl mt-0.5"></i>
+                <div>
+                    <h4 class="font-bold text-emerald-950 text-sm">تم تحميل قائمة الطلاب الرسمية الفعلية (68 طالباً):</h4>
+                    <p class="text-xs text-emerald-800 mt-0.5">تم تفعيل القوائم الكاملة المعتمدة بالصورة للصف الثامن. يمكنك تعديل بيانات أي طالب وحفظها مباشرة، أو رفع ملف Excel آخر.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button onclick="resetToRealStudentList()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-rotate-left"></i> استعادة القائمة الرسمية (68 طالباً)
+                </button>
+                <button onclick="openExcelModal()" class="bg-qatar-maroon text-white hover:bg-qatar-dark text-xs font-bold px-3 py-2 rounded-lg shadow transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-file-excel text-emerald-400"></i> استيراد / تصدير Excel
+                </button>
+            </div>
+        </div>
+
+        <!-- STATS OVERVIEW CARDS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <span class="text-slate-500 text-xs font-semibold block">إجمالي طلاب الصف الثامن</span>
+                    <span id="stat-total-students" class="text-2xl font-black text-slate-800">0</span>
+                </div>
+                <div class="w-12 h-12 bg-rose-50 text-qatar-maroon rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <span class="text-slate-500 text-xs font-semibold block">متوسط أداء الصف</span>
+                    <span id="stat-class-avg" class="text-2xl font-black text-emerald-600">0%</span>
+                </div>
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <span class="text-slate-500 text-xs font-semibold block">المتصدر الأول</span>
+                    <span id="stat-top-student" class="text-sm font-bold text-qatar-maroon truncate block max-w-[120px]">-</span>
+                </div>
+                <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
+                <div>
+                    <span class="text-slate-500 text-xs font-semibold block">الطلاب المتميزون (نجوم/أبطال)</span>
+                    <span id="stat-stars-count" class="text-2xl font-black text-amber-600">0</span>
+                </div>
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 1: STUDENT ROSTER ================= -->
+        <section id="view-roster" class="tab-view block space-y-6">
+            <!-- Search & Filters Bar -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <div class="flex flex-col lg:flex-row gap-3 justify-between items-center">
+                    
+                    <!-- Search Input -->
+                    <div class="relative w-full lg:w-96">
+                        <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3.5 text-slate-400"></i>
+                        <input type="text" id="search-input" oninput="renderStudents()" placeholder="ابحث باسم الطالب..." class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-qatar-maroon focus:outline-none transition text-sm">
+                    </div>
+
+                    <!-- Filters & Controls -->
+                    <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto justify-end">
+                        
+                        <!-- Section Filter -->
+                        <select id="filter-section" onchange="renderStudents()" class="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl py-2.5 px-3 focus:ring-2 focus:ring-qatar-maroon focus:outline-none font-bold">
+                            <option value="ALL">جميع الشعب (8/5, 8/6, 8/7)</option>
+                            <option value="8/5">شعبة 8/5 (القائمة الأولى)</option>
+                            <option value="8/6">شعبة 8/6 (القائمة الثانية)</option>
+                            <option value="8/7">شعبة 8/7 (القائمة الثالثة)</option>
+                        </select>
+
+                        <!-- Category Filter -->
+                        <select id="filter-category" onchange="renderStudents()" class="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl py-2.5 px-3 focus:ring-2 focus:ring-qatar-maroon focus:outline-none">
+                            <option value="ALL">جميع المستويات</option>
+                            <option value="EXCELLENT">المتميزون والأبطال</option>
+                            <option value="NEED_SUPPORT">طلاب بحاجة لدعم وترتيب</option>
+                            <option value="HIGH_PARTICIPATION">الأعلى مشاركة صفية</option>
+                            <option value="LOW_ATTENTION">بحاجة لتحسين الانتباه</option>
+                            <option value="HIGH_COMMITMENT">الأكثر التزاماً</option>
+                        </select>
+
+                        <!-- Sort Order -->
+                        <select id="sort-order" onchange="renderStudents()" class="bg-slate-50 border border-slate-200 text-slate-700 text-sm rounded-xl py-2.5 px-3 focus:ring-2 focus:ring-qatar-maroon focus:outline-none">
+                            <option value="POINTS_DESC">الترتيب: أعلى النقاط</option>
+                            <option value="POINTS_ASC">الترتيب: أقل النقاط</option>
+                            <option value="NAME_ASC">الترتيب: الأبجدي (أ - ي)</option>
+                        </select>
+
+                        <!-- Add Student Button -->
+                        <button onclick="openAddStudentModal()" class="bg-qatar-maroon hover:bg-qatar-dark text-white text-sm font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> إضافة طالب
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Cards Grid -->
+            <div id="students-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Cards injected dynamically via JS -->
+            </div>
+            
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200">
+                <i class="fa-solid fa-user-slash text-5xl text-slate-300 mb-3 block"></i>
+                <h3 class="text-lg font-bold text-slate-700">لم يتم العثور على أي نتائج!</h3>
+                <p class="text-sm text-slate-500 mt-1">جرب تغيير كلمة البحث أو اختيار تصفية شعبة أخرى.</p>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: LEADERBOARD ================= -->
+        <section id="view-leaderboard" class="tab-view hidden space-y-8">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full text-xs">فرسان الرياضيات</span>
+                <h2 class="text-3xl font-black text-slate-900">لوحة المتصدرين – أبطال الرياضيات</h2>
+                <p class="text-sm text-slate-600">لوحة الشرف التنافسية لطلاب الصف الثامن بمدرسة عبدالله بن علي المسند الإعدادية</p>
+            </div>
+
+            <!-- Top 3 Podium -->
+            <div id="podium-container" class="flex justify-center items-end gap-3 sm:gap-6 pt-12 pb-4 max-w-2xl mx-auto">
+                <!-- Injected dynamically JS -->
+            </div>
+
+            <!-- Full Leaderboard Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-list-ol text-qatar-maroon"></i> القائمة الكاملة للترتيب
+                    </h3>
+                    <span class="text-xs text-slate-500">تحدث تلقائياً عند تعديل أي درجة أو نقطة</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-sm">
+                        <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="p-3.5 text-center">المركز</th>
+                                <th class="p-3.5">اسم الطالب</th>
+                                <th class="p-3.5 text-center">الشعبة</th>
+                                <th class="p-3.5 text-center">المستوى</th>
+                                <th class="p-3.5 text-center">نسبة الإنجاز</th>
+                                <th class="p-3.5 text-center">الشارات</th>
+                                <th class="p-3.5 text-center">مجموع النقاط</th>
+                                <th class="p-3.5 text-center">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-table-body" class="divide-y divide-slate-100">
+                            <!-- Injected JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: ANALYTICS ================= -->
+        <section id="view-analytics" class="tab-view hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-column text-qatar-maroon"></i> إحصائيات وبوصلة الأداء الصفية
+                </h3>
+                <p class="text-sm text-slate-500 mb-6">تحليل متوسطات التقييمات والسلوك والالتزام لجميع طلاب الصف الثامن في مادة الرياضيات.</p>
+
+                <!-- Chart Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col items-center justify-center">
+                        <h4 class="font-bold text-sm text-slate-700 mb-4">متوسط الأداء عبر المحاور (من 10)</h4>
+                        <div class="w-full max-w-md h-72">
+                            <canvas id="chart-radar"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-center">
+                        <h4 class="font-bold text-sm text-slate-700 mb-4">مقارنة التقييمات الأساسية بالصف</h4>
+                        <div id="assessments-bars-container" class="space-y-4">
+                            <!-- Injected dynamic HTML bars -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Recommendations Box -->
+            <div class="bg-gradient-to-r from-qatar-maroon to-qatar-dark text-white p-6 rounded-2xl shadow-lg">
+                <div class="flex items-center gap-3 mb-3">
+                    <i class="fa-solid fa-lightbulb text-qatar-gold text-2xl"></i>
+                    <h4 class="font-bold text-lg">التوصيات والملاحظات التربوية التلقائية للمدرس</h4>
+                </div>
+                <div id="analytics-recommendations" class="text-sm text-slate-200 space-y-2">
+                    <!-- Injected JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- 1. STUDENT DETAILS / EDIT MODAL -->
+    <div id="modal-student-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-slate-100 flex flex-col">
+            <!-- Modal Header -->
+            <div class="p-6 qatar-pattern text-white rounded-t-3xl flex justify-between items-start">
+                <div class="flex items-center gap-4">
+                    <div id="modal-student-avatar" class="w-16 h-16 rounded-2xl bg-white text-qatar-maroon flex items-center justify-center text-2xl font-black shadow-lg">
+                        -
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="modal-student-section-badge" class="bg-qatar-gold/30 text-qatar-gold border border-qatar-gold/40 text-xs font-bold px-2.5 py-0.5 rounded-full">8/5</span>
+                            <span id="modal-student-level" class="bg-white/20 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">🏆 نجم الرياضيات</span>
+                        </div>
+                        <h2 id="modal-student-header-name" class="text-2xl font-extrabold">اسم الطالب</h2>
+                        <p class="text-xs text-slate-200 mt-0.5">تعديل بيانات الطالب وبطاقة المتابعة الصفية - قسم الرياضيات</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('modal-student-detail')" class="text-white/80 hover:text-white text-2xl font-bold p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 space-y-6 flex-grow">
+
+                <!-- Student Main Details Editable Section -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">اسم الطالب الرباعي:</label>
+                        <input type="text" id="edit-student-name-input" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-800 focus:ring-2 focus:ring-qatar-maroon focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">الشعبة / الصف:</label>
+                        <select id="edit-student-section-select" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-800 focus:ring-2 focus:ring-qatar-maroon focus:outline-none">
+                            <option value="8/5">الصف الثامن (8/5)</option>
+                            <option value="8/6">الصف الثامن (8/6)</option>
+                            <option value="8/7">الصف الثامن (8/7)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quick Score Summary Cards -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-center">
+                        <span class="text-xs text-slate-500 font-bold block mb-1">النقاط الإضافية</span>
+                        <input type="number" id="edit-student-bonus-input" min="0" max="500" class="w-20 mx-auto text-center font-black text-lg text-qatar-maroon border border-slate-300 rounded-lg p-1 bg-white">
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-center">
+                        <span class="text-xs text-slate-500 font-bold block">معدل التقييمات</span>
+                        <span id="modal-assess-avg" class="text-xl font-black text-emerald-600 block mt-1">0/10</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-center">
+                        <span class="text-xs text-slate-500 font-bold block">معدل المشاركة والسلوك</span>
+                        <span id="modal-behavior-avg" class="text-xl font-black text-amber-600 block mt-1">0/10</span>
+                    </div>
+                </div>
+
+                <!-- Quick Add Bonus Points Buttons -->
+                <div>
+                    <h4 class="font-bold text-sm text-slate-800 mb-2.5 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-amber-500"></i> منح نقاط تحفيزية إضافية سريعة
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="addBonusPointToCurrentStudent(10, 'المشاركة الفعالة')" class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-bold px-3 py-2 rounded-xl transition border border-amber-300">
+                            +10 مشاركة فعالة
+                        </button>
+                        <button type="button" onclick="addBonusPointToCurrentStudent(5, 'إحضار الأدوات')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold px-3 py-2 rounded-xl transition border border-emerald-300">
+                            +5 إحضار الأدوات
+                        </button>
+                        <button type="button" onclick="addBonusPointToCurrentStudent(10, 'حل سؤال للسبورة')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold px-3 py-2 rounded-xl transition border border-blue-300">
+                            +10 حل سؤال للسبورة
+                        </button>
+                        <button type="button" onclick="addBonusPointToCurrentStudent(10, 'مساعدة زميل')" class="bg-purple-100 hover:bg-purple-200 text-purple-800 text-xs font-bold px-3 py-2 rounded-xl transition border border-purple-300">
+                            +10 مساعدة زميل
+                        </button>
+                        <button type="button" onclick="addBonusPointToCurrentStudent(15, 'تحسن ملحوظ')" class="bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs font-bold px-3 py-2 rounded-xl transition border border-rose-300">
+                            +15 تحسن ملحوظ
+                        </button>
+                        <button type="button" onclick="addBonusPointToCurrentStudent(20, 'إنجاز تحدي رياضي')" class="bg-amber-500 hover:bg-amber-600 text-slate-900 text-xs font-black px-3 py-2 rounded-xl transition shadow">
+                            +20 تحدي الرياضيات 🏆
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Badges Obtained -->
+                <div>
+                    <h4 class="font-bold text-sm text-slate-800 mb-2">الشارات والإنجازات المكتسبة:</h4>
+                    <div id="modal-badges-container" class="flex flex-wrap gap-2">
+                        <!-- Injected JS -->
+                    </div>
+                </div>
+
+                <!-- Scores Breakdown Forms (12 Items) -->
+                <div>
+                    <h4 class="font-bold text-sm text-slate-800 mb-3 flex items-center justify-between border-b pb-2">
+                        <span><i class="fa-solid fa-sliders text-qatar-maroon ml-1"></i> تفاصيل الدرجات والبنود الـ 12 (من 10)</span>
+                        <span class="text-xs text-slate-500 font-normal">يمكن سحب المؤشر أو كتابة الدرجة لتعديلها</span>
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3" id="modal-criteria-inputs">
+                        <!-- Injected criteria sliders/inputs -->
+                    </div>
+                </div>
+
+                <!-- Automatic & Teacher Notes -->
+                <div class="space-y-2">
+                    <label class="font-bold text-sm text-slate-800 flex items-center justify-between">
+                        <span><i class="fa-solid fa-comment-dots text-qatar-maroon ml-1"></i> ملاحظات المعلم والتوجيهات</span>
+                        <button type="button" onclick="regenerateNotesForCurrentStudent()" class="text-xs text-qatar-maroon hover:underline font-bold">
+                            <i class="fa-solid fa-rotate"></i> إعادة توليد تلقائي
+                        </button>
+                    </label>
+                    <textarea id="modal-notes-textarea" rows="3" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-qatar-maroon focus:outline-none"></textarea>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 rounded-b-3xl flex justify-between items-center">
+                <button type="button" onclick="deleteCurrentStudent()" class="text-rose-600 hover:text-rose-800 text-sm font-bold flex items-center gap-1.5 px-3 py-2">
+                    <i class="fa-solid fa-trash"></i> حذف الطالب
+                </button>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeModal('modal-student-detail')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-bold rounded-xl transition">
+                        إلغاء
+                    </button>
+                    <button type="button" onclick="saveStudentChanges()" class="px-6 py-2.5 bg-qatar-maroon hover:bg-qatar-dark text-white text-sm font-extrabold rounded-xl transition shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> حفظ كافة التغييرات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ADD STUDENT MODAL -->
+    <div id="modal-add-student" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 border border-slate-100">
+            <h3 class="text-xl font-extrabold text-slate-900 mb-1">إضافة طالب جديد</h3>
+            <p class="text-xs text-slate-500 mb-4">سيتم إنشاء سجل متكامل ودرجات أولية للطالب مع إمكانية تعديلها لاحقاً.</p>
+            
+            <form onsubmit="handleAddStudentSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">اسم الطالب رباعي:</label>
+                    <input type="text" id="add-name-input" required placeholder="مثال: أحمد عبد الله الكواري" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-qatar-maroon focus:outline-none">
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">الشعبة / الصف:</label>
+                    <select id="add-section-select" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-qatar-maroon focus:outline-none font-bold">
+                        <option value="8/5">الصف الثامن (8/5)</option>
+                        <option value="8/6">الصف الثامن (8/6)</option>
+                        <option value="8/7">الصف الثامن (8/7)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-add-student')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-bold rounded-xl transition">
+                        إلغاء
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-qatar-maroon hover:bg-qatar-dark text-white text-sm font-bold rounded-xl shadow transition">
+                        حفظ الطالب
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. PROJECTOR DISPLAY / SHOWCASE MODAL -->
+    <div id="modal-presenter" class="fixed inset-0 bg-slate-950 z-50 flex flex-col justify-between p-6 hidden text-white overflow-hidden">
+        
+        <!-- Presenter Header -->
+        <div class="flex justify-between items-center border-b border-white/10 pb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-qatar-maroon text-qatar-gold rounded-2xl flex items-center justify-center text-xl font-black border border-qatar-gold/30">
+                    🇶🇦
+                </div>
+                <div>
+                    <h2 class="text-xl font-black text-amber-400">لوحة العرض والتحفيز الصفية – قسم الرياضيات</h2>
+                    <p class="text-xs text-slate-400">مدرسة عبدالله بن علي المسند الإعدادية للبنين</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="triggerRandomStudentWheel()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black px-4 py-2 rounded-xl shadow-lg transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-dice"></i> اختيار طالب عشوائي للتحدي
+                </button>
+                <button onclick="closeModal('modal-presenter')" class="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-xl transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Presenter Body Display -->
+        <div class="flex-grow flex flex-col items-center justify-center text-center my-6 max-w-4xl mx-auto w-full">
+            <div id="presenter-card" class="bg-gradient-to-b from-slate-900 to-slate-900/90 border-2 border-qatar-gold/40 rounded-3xl p-8 sm:p-12 shadow-2xl w-full relative overflow-hidden transform transition duration-500">
+                
+                <div class="absolute -top-12 left-1/2 -translate-x-1/2 text-6xl opacity-20 text-qatar-gold">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+
+                <span id="pres-student-section" class="bg-qatar-gold/20 text-qatar-gold border border-qatar-gold/40 text-sm font-bold px-4 py-1 rounded-full inline-block mb-3">
+                    شعبة 8/5
+                </span>
+
+                <h1 id="pres-student-name" class="text-3xl sm:text-5xl font-black text-white mb-2">
+                    اختر طالباً للعرض
+                </h1>
+
+                <div class="flex items-center justify-center gap-3 my-4">
+                    <span id="pres-student-level" class="text-xl font-bold bg-qatar-maroon px-4 py-1.5 rounded-2xl border border-qatar-gold/30">
+                        🏆 نجم الرياضيات
+                    </span>
+                    <span id="pres-student-points" class="text-2xl font-black text-amber-400 bg-amber-400/10 px-4 py-1 rounded-2xl border border-amber-400/20">
+                        ⭐ 245 نقطة
+                    </span>
+                </div>
+
+                <div class="bg-white/5 border border-white/10 p-4 rounded-2xl my-6 max-w-xl mx-auto">
+                    <p id="pres-motivational-quote" class="text-lg sm:text-xl font-extrabold text-amber-300 italic">
+                        "استمر في التميز... أنت تقترب من قمة أبطال الرياضيات!"
+                    </p>
+                </div>
+
+                <div id="pres-badges-container" class="flex flex-wrap justify-center gap-3">
+                    <!-- Badges injected -->
+                </div>
+
+                <button onclick="triggerConfetti()" class="mt-8 bg-qatar-gold hover:bg-amber-500 text-slate-950 font-black px-6 py-3 rounded-2xl shadow-xl transition flex items-center gap-2 mx-auto transform hover:scale-105 text-base">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> الاحتفال بالطالب 🎉
+                </button>
+            </div>
+        </div>
+
+        <!-- Presenter Bottom Selector -->
+        <div class="flex items-center justify-center gap-3 overflow-x-auto py-2">
+            <span class="text-xs text-slate-400 whitespace-nowrap">تنقل سريع:</span>
+            <div id="presenter-quick-selector" class="flex gap-2 overflow-x-auto max-w-3xl py-1">
+                <!-- Quick buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. EXCEL IMPORT / EXPORT MODAL -->
+    <div id="modal-excel" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 border border-slate-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-file-excel text-emerald-600"></i> إدارة ملفات Excel والبيانات
+                </h3>
+                <button onclick="closeModal('modal-excel')" class="text-slate-400 hover:text-slate-600 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-5">
+                
+                <!-- Import Excel Drop Zone -->
+                <div class="border-2 border-dashed border-emerald-300 bg-emerald-50/50 p-6 rounded-2xl text-center space-y-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-emerald-600"></i>
+                    <h4 class="font-bold text-sm text-slate-800">استيراد أسماء الطلاب من أي ملف Excel</h4>
+                    <p class="text-xs text-slate-500">قم برفع ملف Excel الخاص بك (مثل: كشوفات الطلاب). سيقوم التطبيق تلقائياً بقراءة الأسماء والشعب وبناء السجل بها مباشرة.</p>
+                    
+                    <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" onchange="handleExcelImport(event)" class="hidden">
+                    
+                    <div class="pt-2 flex justify-center gap-2">
+                        <button onclick="document.getElementById('excel-file-input').click()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">
+                            اختر ملف Excel من جهازك
+                        </button>
+                        <button onclick="downloadExcelTemplate()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-3 py-2 rounded-xl transition">
+                            تحميل نموذج فارغ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Export Excel -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex justify-between items-center">
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-800">تصدير كافة السجلات إلى Excel</h4>
+                        <p class="text-xs text-slate-500">تحميل ملف Excel منسق يحتوي جميع الدرجات والنقاط والملاحظات.</p>
+                    </div>
+                    <button onclick="exportToExcel()" class="bg-qatar-maroon hover:bg-qatar-dark text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow flex items-center gap-1.5 whitespace-nowrap">
+                        <i class="fa-solid fa-download"></i> تصدير Excel
+                    </button>
+                </div>
+
+                <!-- Data Backup & Restore -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button onclick="backupDataJSON()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs p-3 rounded-xl transition border border-slate-300 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk text-slate-500"></i> نسخ احتياطي JSON
+                    </button>
+                    <button onclick="document.getElementById('json-restore-input').click()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs p-3 rounded-xl transition border border-slate-300 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-left text-slate-500"></i> استعادة النسخة
+                    </button>
+                    <input type="file" id="json-restore-input" accept=".json" onchange="restoreDataJSON(event)" class="hidden">
+                </div>
+
+                <div class="pt-2 text-center border-t">
+                    <button onclick="resetToRealStudentList()" class="text-xs text-qatar-maroon hover:underline font-bold">
+                        استعادة القائمة الرسمية الكاملة (الـ 68 طالباً بالصورة)
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT APP CORE ================= -->
+    <script>
+        // Storage key version for clean state management
+        const APP_STORAGE_KEY = 'QATAR_MATH_REGISTRY_8TH_GRADE_REAL_V2';
+
+        // Criteria Names (12 Items)
+        const EVALUATION_CRITERIA = [
+            { id: 'assess1', label: 'التقييم الأول', category: 'assessment' },
+            { id: 'assess2', label: 'التقييم الثاني', category: 'assessment' },
+            { id: 'assess3', label: 'التقييم الثالث', category: 'assessment' },
+            { id: 'partic', label: 'المشاركة الفعالة', category: 'behavior' },
+            { id: 'tools', label: 'إحضار الأدوات', category: 'behavior' },
+            { id: 'focus', label: 'الانتباه والتركيز', category: 'behavior' },
+            { id: 'notalking', label: 'عدم الكلام أثناء الشرح', category: 'behavior' },
+            { id: 'nosleeping', label: 'عدم النوم داخل الحصة', category: 'behavior' },
+            { id: 'homework', label: 'الالتزام بالواجبات', category: 'behavior' },
+            { id: 'interaction', label: 'التفاعل مع المعلم', category: 'behavior' },
+            { id: 'cooperation', label: 'التعاون مع الزملاء', category: 'behavior' },
+            { id: 'discipline', label: 'المحافظة على النظام', category: 'behavior' }
+        ];
+
+        // ACTUAL REAL STUDENTS FROM ATTACHED IMAGE (68 STUDENTS IN 3 SECTIONS)
+        const REAL_STUDENT_NAMES_FROM_IMAGE = [
+            // Section 1 -> 8/5
+            { name: "ابراهيم احمد ابراهيم الحسن المهندي", section: "8/5" },
+            { name: "اسلام احمد عبده محمد الدرسى", section: "8/5" },
+            { name: "امير الصبري", section: "8/5" },
+            { name: "جاسم محمد علي جعفر المحمد", section: "8/5" },
+            { name: "جبر عبدالله حسون", section: "8/5" },
+            { name: "حسن علي عبدالله خميس المريخي", section: "8/5" },
+            { name: "حمد احمد جمعه خميس السعدي", section: "8/5" },
+            { name: "حمد جابر عيسى راشد المضاحكه", section: "8/5" },
+            { name: "حمد علي حمد عبدالله الشيدي", section: "8/5" },
+            { name: "حمد فهد فرحان الحسن المهندي", section: "8/5" },
+            { name: "خالد محمد رياض البلتاجي", section: "8/5" },
+            { name: "خميس حمد خميس حسن المريخي", section: "8/5" },
+            { name: "سلمان ادم حمدون سليمان", section: "8/5" },
+            { name: "عبدالله طالب محمد سعيد الكتبي", section: "8/5" },
+            { name: "عبدالله يوسف صالح البنعلي المهندي", section: "8/5" },
+            { name: "مبارك سعيد طالب المري", section: "8/5" },
+            { name: "محمد ايمن احمد الجعافره", section: "8/5" },
+            { name: "محمد حسام وليد فضل حجى", section: "8/5" },
+            { name: "محمد عاصم عامر", section: "8/5" },
+            { name: "محمد عبدالله حسين علي المالكي", section: "8/5" },
+            { name: "ناصر جمعة زراعي نزاد", section: "8/5" },
+            { name: "ياسين محمد عبد الرازق عبد الفتاح محمد", section: "8/5" },
+            { name: "ابراهيم جليل بابو", section: "8/5" },
+
+            // Section 2 -> 8/6
+            { name: "احمد ناصر احمد البريد الحميدي", section: "8/6" },
+            { name: "تميم صالح خصيف مسعود الهنداسي", section: "8/6" },
+            { name: "حذيفه محمد المحمد", section: "8/6" },
+            { name: "حسن محمود ابراهيم باكر الهيدوس", section: "8/6" },
+            { name: "حمد خليل عبد المولى عثمان الذبحاني", section: "8/6" },
+            { name: "حمزه عبدالله صالح علي مهدي", section: "8/6" },
+            { name: "خالد عبدالله لخدان البنعلي المهندي", section: "8/6" },
+            { name: "خليفه سعود عبدالعزيز الجطيلي", section: "8/6" },
+            { name: "سلمان حسن ماجد الحسن المهندي", section: "8/6" },
+            { name: "عبدالرحمن عمر حميد مصلح الغاطي", section: "8/6" },
+            { name: "عبدالرحمن ناجي عبدالرحمن عبدالرؤوف", section: "8/6" },
+            { name: "علي اياز", section: "8/6" },
+            { name: "علي راضي علي الطراق الهاجري", section: "8/6" },
+            { name: "عيسى عبد الحافظ احمد علي طنبح", section: "8/6" },
+            { name: "فزاع عبدالله سرور ضحي النوفلي", section: "8/6" },
+            { name: "محمد حمد محمد علي الكلدي", section: "8/6" },
+            { name: "محمد سلطان حسن مهدي البلوشي", section: "8/6" },
+            { name: "محمد سمير", section: "8/6" },
+            { name: "محمد غريب الشبراوي علي اسماعيل", section: "8/6" },
+            { name: "محمد نافع فهد خطيب", section: "8/6" },
+            { name: "محمود احمد الاغا", section: "8/6" },
+            { name: "نواف محمد ناصر جميل الحمداني", section: "8/6" },
+            { name: "احمد غلام فاروق محمد اشرف", section: "8/6" },
+
+            // Section 3 -> 8/7
+            { name: "المهند ابراهيم سليم الضرابعه", section: "8/7" },
+            { name: "تمام يونس محمد علي الشاذلي", section: "8/7" },
+            { name: "تميم احمد عبيد الصالح", section: "8/7" },
+            { name: "تميم ناصر جميل سعيد الحمداني", section: "8/7" },
+            { name: "جابر علي حسين محمد حسين", section: "8/7" },
+            { name: "جعفر خليل يوسف محمد", section: "8/7" },
+            { name: "حسن فهد حسن النصف المنصوري", section: "8/7" },
+            { name: "زكريا ايهاب حسني خلف", section: "8/7" },
+            { name: "سعد سلطان سعد مبارك الدوسري", section: "8/7" },
+            { name: "عبدالرحمن محمد احمد بكرى محمد", section: "8/7" },
+            { name: "عمر مروان الطاهر الصاري", section: "8/7" },
+            { name: "عيد ناصر مبارك المسيفري الهاجري", section: "8/7" },
+            { name: "عيسى جليل بابو", section: "8/7" },
+            { name: "عيسى نواف ابراهيم محمد البوشايع", section: "8/7" },
+            { name: "فارس غانم فارس البنعلي المهندي", section: "8/7" },
+            { name: "محمد ابراهيم عتيق المسند المهندي", section: "8/7" },
+            { name: "محمود تامر محمد عبدالله محمد", section: "8/7" },
+            { name: "مشعل عبدالله فرحان الحسن المهندي", section: "8/7" },
+            { name: "معاذ محمد عبدالعزيز الصادق", section: "8/7" },
+            { name: "منصور خليفه سلطان سعيد المقبالي", section: "8/7" },
+            { name: "يحي احمد علي محمد عبدالقادر", section: "8/7" },
+            { name: "يوسف خالد طه ابو شعشع الخولي", section: "8/7" }
+        ];
+
+        // Motivational Slogans for Projector View
+        const MOTIVATIONAL_SLOGANS = [
+            "أحسنت يا بطل! الرياضيات ناهيك عن الإتقان والإبداع.",
+            "مستقبلك مشرق بالتميز والتفوق الرياضي!",
+            "استمر في العطاء... أنت نموذج يحتذى به في الصف!",
+            "عقل متفتح وحل سريع للمسائل الصعبة!",
+            "فخر قسم الرياضيات بمدرسة عبدالله بن علي المسند."
+        ];
+
+        let state = {
+            students: [],
+            currentStudentId: null,
+            activeTab: 'roster'
+        };
+
+        let radarChartInstance = null;
+
+        window.onload = function() {
+            loadState();
+            renderApp();
+        };
+
+        function loadState() {
+            const saved = localStorage.getItem(APP_STORAGE_KEY);
+            if (saved) {
+                try {
+                    state.students = JSON.parse(saved);
+                    if (!Array.isArray(state.students) || state.students.length === 0) {
+                        generateRealInitialData();
+                    }
+                } catch(e) {
+                    console.error("Failed to parse saved state", e);
+                    generateRealInitialData();
+                }
+            } else {
+                generateRealInitialData();
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state.students));
+        }
+
+        function generateRealInitialData() {
+            state.students = REAL_STUDENT_NAMES_FROM_IMAGE.map((item, index) => createMockStudentRecord(index + 1, item.name, item.section));
+            saveState();
+        }
+
+        function resetToRealStudentList() {
+            generateRealInitialData();
+            renderApp();
+            showToast("تمت استعادة قائمة الـ 68 طالباً الرسمية بنجاح!");
+        }
+
+        function createMockStudentRecord(id, name, section) {
+            function getRandomScore() {
+                const rand = Math.random();
+                if (rand < 0.55) return 10;
+                if (rand < 0.82) return 9;
+                if (rand < 0.94) return 8;
+                if (rand < 0.98) return 7;
+                return 6;
+            }
+
+            const scores = {};
+            EVALUATION_CRITERIA.forEach(crit => {
+                scores[crit.id] = getRandomScore();
+            });
+
+            const bonusPoints = Math.floor(Math.random() * 6) * 10 + 10;
+
+            const student = {
+                id: id || (Date.now() + Math.floor(Math.random() * 10000)),
+                name: name,
+                section: section || '8/5',
+                scores: scores,
+                bonusPoints: bonusPoints,
+                notes: ''
+            };
+
+            student.notes = generateSmartNotes(student.scores);
+            return student;
+        }
+
+        function generateSmartNotes(scores) {
+            const positives = [];
+            const improvements = [];
+
+            if (scores.partic >= 9) positives.push("طالب متفاعل ومشارك بفاعلية كبيرة في الحصة.");
+            if (scores.tools === 10) positives.push("ملتزم دائماً بإحضار الأدوات الهندسية والكتب.");
+            if (scores.focus >= 9) positives.push("يظهر تركيزاً وانتباهاً ممتازين أثناء شرح الدروس.");
+            if (scores.assess1 >= 9 && scores.assess2 >= 9) positives.push("أداء متفوق ومستمر في التقييمات القصيرة.");
+            if (scores.cooperation >= 9) positives.push("يتعاون بروح الفريق مع زملائه في الأنشطة الصفية.");
+            if (scores.discipline >= 9) positives.push("قدوة في الالتزام بالنظام والانضباط الصفي.");
+            if (scores.homework >= 9) positives.push("مواظب على حل جميع الواجبات والمهام الرياضية.");
+
+            if (scores.focus <= 6) improvements.push("يحتاج إلى زيادة الانتباه والتركيز أثناء شرح الخطوات الرياضية.");
+            if (scores.partic <= 6) improvements.push("يحتاج إلى رفع مستوى المشاركة والتفاعل في الحصة.");
+            if (scores.notalking <= 6) improvements.push("ينصح بتقليل الحديث الجانبي للانتباه أكثر للمعلم.");
+            if (scores.tools <= 6) improvements.push("يرجى المحافظة المستمرة على إحضار الأدوات الرياضية.");
+
+            if (positives.length === 0) {
+                positives.push("طالب مجتهد ويظهر رغبة مستمرة في تعلم مادة الرياضيات.");
+            }
+
+            let result = positives.slice(0, 2).join(' ');
+            if (improvements.length > 0) {
+                result += ' ' + improvements[0];
+            }
+            return result;
+        }
+
+        function calculateStudentStats(student) {
+            let totalBase = 0;
+            let totalPossibleBase = EVALUATION_CRITERIA.length * 10;
+
+            let assessSum = 0;
+            let behaviorSum = 0;
+
+            EVALUATION_CRITERIA.forEach(c => {
+                const val = (student.scores && student.scores[c.id] !== undefined) ? student.scores[c.id] : 8;
+                totalBase += val;
+                if (c.category === 'assessment') assessSum += val;
+                else behaviorSum += val;
+            });
+
+            const totalPoints = totalBase + (student.bonusPoints || 0);
+            const percentage = Math.min(100, Math.round((totalBase / totalPossibleBase) * 100));
+
+            let level = { title: '🌱 بداية التميز', badge: 'bg-slate-100 text-slate-800 border-slate-300' };
+            if (totalPoints >= 200) {
+                level = { title: '👑 بطل الرياضيات', badge: 'bg-amber-100 text-amber-900 border-amber-400 font-black' };
+            } else if (totalPoints >= 165) {
+                level = { title: '🏆 نجم الرياضيات', badge: 'bg-qatar-light text-qatar-maroon border-qatar-maroon font-bold' };
+            } else if (totalPoints >= 130) {
+                level = { title: '🏅 طالب متميز', badge: 'bg-emerald-100 text-emerald-800 border-emerald-300 font-bold' };
+            } else if (totalPoints >= 100) {
+                level = { title: '⭐ طالب مجتهد', badge: 'bg-blue-100 text-blue-800 border-blue-300 font-bold' };
+            }
+
+            const badges = [];
+            if (student.scores.assess1 >= 9 && student.scores.assess2 >= 9) badges.push({ name: '🏆 نجم الرياضيات', color: 'bg-amber-100 text-amber-800' });
+            if (student.scores.partic >= 9) badges.push({ name: '⭐ مشارك متميز', color: 'bg-blue-100 text-blue-800' });
+            if (student.scores.assess1 === 10 || student.scores.assess2 === 10 || student.scores.assess3 === 10) badges.push({ name: '🎯 دقة عالية', color: 'bg-emerald-100 text-emerald-800' });
+            if (student.scores.interaction >= 9) badges.push({ name: '🔥 متفاعل باستمرار', color: 'bg-rose-100 text-rose-800' });
+            if (student.scores.tools === 10) badges.push({ name: '📚 ملتزم بالأدوات', color: 'bg-purple-100 text-purple-800' });
+            if (student.bonusPoints >= 30) badges.push({ name: '🧠 مفكر رياضي', color: 'bg-amber-100 text-amber-900' });
+            if (student.scores.cooperation >= 9) badges.push({ name: '👏 روح الفريق', color: 'bg-teal-100 text-teal-800' });
+
+            return {
+                totalBase,
+                totalPoints,
+                percentage,
+                assessAvg: (assessSum / 3).toFixed(1),
+                behaviorAvg: (behaviorSum / 9).toFixed(1),
+                level,
+                badges
+            };
+        }
+
+        function renderApp() {
+            renderHeaderStats();
+            renderStudents();
+            renderLeaderboard();
+            renderAnalytics();
+        }
+
+        function renderHeaderStats() {
+            document.getElementById('stat-total-students').innerText = state.students.length;
+            
+            if (state.students.length === 0) return;
+
+            let totalPercentages = 0;
+            let topStudent = null;
+            let maxPoints = -1;
+            let starsCount = 0;
+
+            state.students.forEach(st => {
+                const stats = calculateStudentStats(st);
+                totalPercentages += stats.percentage;
+                
+                if (stats.totalPoints > maxPoints) {
+                    maxPoints = stats.totalPoints;
+                    topStudent = st.name;
+                }
+
+                if (stats.level.title.includes('نجم') || stats.level.title.includes('بطل')) {
+                    starsCount++;
+                }
+            });
+
+            document.getElementById('stat-class-avg').innerText = Math.round(totalPercentages / state.students.length) + '%';
+            document.getElementById('stat-top-student').innerText = topStudent || '-';
+            document.getElementById('stat-stars-count').innerText = starsCount;
+        }
+
+        function renderStudents() {
+            const grid = document.getElementById('students-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            const query = document.getElementById('search-input').value.trim().toLowerCase();
+            const sectionFilter = document.getElementById('filter-section').value;
+            const categoryFilter = document.getElementById('filter-category').value;
+            const sortOrder = document.getElementById('sort-order').value;
+
+            let filtered = state.students.filter(st => {
+                const matchesQuery = st.name.toLowerCase().includes(query);
+                const matchesSection = (sectionFilter === 'ALL' || st.section === sectionFilter);
+                
+                const stats = calculateStudentStats(st);
+                let matchesCategory = true;
+
+                if (categoryFilter === 'EXCELLENT') matchesCategory = stats.totalPoints >= 165;
+                else if (categoryFilter === 'NEED_SUPPORT') matchesCategory = stats.percentage < 75;
+                else if (categoryFilter === 'HIGH_PARTICIPATION') matchesCategory = st.scores.partic >= 9;
+                else if (categoryFilter === 'LOW_ATTENTION') matchesCategory = st.scores.focus <= 7;
+                else if (categoryFilter === 'HIGH_COMMITMENT') matchesCategory = st.scores.discipline >= 9;
+
+                return matchesQuery && matchesSection && matchesCategory;
+            });
+
+            filtered.sort((a, b) => {
+                const statsA = calculateStudentStats(a);
+                const statsB = calculateStudentStats(b);
+
+                if (sortOrder === 'POINTS_DESC') return statsB.totalPoints - statsA.totalPoints;
+                if (sortOrder === 'POINTS_ASC') return statsA.totalPoints - statsB.totalPoints;
+                if (sortOrder === 'NAME_ASC') return a.name.localeCompare(b.name, 'ar');
+                return 0;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(student => {
+                const stats = calculateStudentStats(student);
+                return `
+                    <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition border border-slate-200 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-qatar-light text-qatar-maroon font-black flex items-center justify-center text-lg border border-qatar-maroon/20">
+                                        ${student.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-tight">${student.name}</h3>
+                                        <span class="text-xs font-bold text-slate-500">شعبة: ${student.section}</span>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 text-xs rounded-full border ${stats.level.badge}">
+                                    ${stats.level.title}
+                                </span>
+                            </div>
+
+                            <div class="space-y-1 mt-3">
+                                <div class="flex justify-between text-xs font-bold">
+                                    <span class="text-slate-600">نسبة الإنجاز الإجمالية</span>
+                                    <span class="text-qatar-maroon">${stats.percentage}%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-qatar-maroon to-qatar-gold h-2.5 rounded-full" style="width: ${stats.percentage}%"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 mt-4 text-center">
+                                <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                                    <span class="text-[11px] text-slate-500 font-semibold block">مجموع النقاط</span>
+                                    <span class="text-lg font-black text-slate-800">${stats.totalPoints} <span class="text-xs text-amber-500">⭐</span></span>
+                                </div>
+                                <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                                    <span class="text-[11px] text-slate-500 font-semibold block">معدل التقييمات</span>
+                                    <span class="text-lg font-black text-emerald-600">${stats.assessAvg} <span class="text-xs text-slate-400">/10</span></span>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 bg-amber-50/60 p-2.5 rounded-xl border border-amber-200/60 text-xs text-amber-900 line-clamp-2">
+                                <i class="fa-solid fa-quote-right text-amber-500 ml-1"></i>
+                                ${student.notes}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                            <button onclick="openStudentDetailModal(${student.id})" class="flex-grow bg-qatar-maroon hover:bg-qatar-dark text-white font-bold text-xs py-2 px-3 rounded-xl transition shadow flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-pen-to-square"></i> تعديل وبطاقة الطالب
+                            </button>
+                            <button onclick="quickAddPoints(${student.id}, 10)" title="إضافة 10 نقاط سريعة" class="bg-amber-100 hover:bg-amber-200 text-amber-800 font-extrabold text-xs py-2 px-3 rounded-xl transition border border-amber-300">
+                                +10 ⭐
+                            </button>
+                            <button onclick="openPresenterForStudent(${student.id})" title="عرض في الشاشة" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2 px-2.5 rounded-xl transition">
+                                <i class="fa-solid fa-tv"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderLeaderboard() {
+            const sorted = [...state.students].sort((a, b) => {
+                const statsA = calculateStudentStats(a);
+                const statsB = calculateStudentStats(b);
+                return statsB.totalPoints - statsA.totalPoints;
+            });
+
+            const podiumContainer = document.getElementById('podium-container');
+            const tbody = document.getElementById('leaderboard-table-body');
+
+            if (sorted.length < 3) {
+                podiumContainer.innerHTML = '<p class="text-center text-slate-400">يلزم وجود 3 طلاب على الأقل لعرض المنصة.</p>';
+            } else {
+                const p1 = sorted[0]; const p1Stats = calculateStudentStats(p1);
+                const p2 = sorted[1]; const p2Stats = calculateStudentStats(p2);
+                const p3 = sorted[2]; const p3Stats = calculateStudentStats(p3);
+
+                podiumContainer.innerHTML = `
+                    <!-- 2nd Place -->
+                    <div class="flex flex-col items-center flex-1 max-w-[150px]">
+                        <span class="text-2xl mb-1">🥈</span>
+                        <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-800 font-black flex items-center justify-center text-lg shadow border-2 border-slate-300">
+                            ${p2.name.charAt(0)}
+                        </div>
+                        <span class="font-bold text-xs text-slate-800 mt-1 truncate w-full text-center">${p2.name}</span>
+                        <span class="text-xs text-amber-600 font-black">${p2Stats.totalPoints} نقطة</span>
+                        <div class="podium-2 w-full rounded-t-2xl shadow-md flex items-start justify-center pt-3 text-slate-700 font-black text-xl mt-2">
+                            2
+                        </div>
+                    </div>
+
+                    <!-- 1st Place -->
+                    <div class="flex flex-col items-center flex-1 max-w-[170px]">
+                        <span class="text-3xl mb-1">👑</span>
+                        <div class="w-16 h-16 rounded-full bg-amber-400 text-slate-900 font-black flex items-center justify-center text-2xl shadow-xl border-4 border-amber-300 transform -translate-y-1">
+                            ${p1.name.charAt(0)}
+                        </div>
+                        <span class="font-extrabold text-sm text-slate-900 mt-1 truncate w-full text-center">${p1.name}</span>
+                        <span class="text-sm text-amber-600 font-black">${p1Stats.totalPoints} نقطة</span>
+                        <div class="podium-1 w-full rounded-t-2xl shadow-lg flex items-start justify-center pt-3 text-slate-900 font-black text-2xl mt-2">
+                            1
+                        </div>
+                    </div>
+
+                    <!-- 3rd Place -->
+                    <div class="flex flex-col items-center flex-1 max-w-[150px]">
+                        <span class="text-2xl mb-1">🥉</span>
+                        <div class="w-12 h-12 rounded-full bg-amber-200 text-amber-900 font-black flex items-center justify-center text-lg shadow border-2 border-amber-300">
+                            ${p3.name.charAt(0)}
+                        </div>
+                        <span class="font-bold text-xs text-slate-800 mt-1 truncate w-full text-center">${p3.name}</span>
+                        <span class="text-xs text-amber-600 font-black">${p3Stats.totalPoints} نقطة</span>
+                        <div class="podium-3 w-full rounded-t-2xl shadow-md flex items-start justify-center pt-3 text-slate-800 font-black text-xl mt-2">
+                            3
+                        </div>
+                    </div>
+                `;
+            }
+
+            tbody.innerHTML = sorted.map((student, idx) => {
+                const stats = calculateStudentStats(student);
+                let rankBadge = `<span class="font-bold text-slate-500">#${idx + 1}</span>`;
+                if (idx === 0) rankBadge = '🥇';
+                if (idx === 1) rankBadge = '🥈';
+                if (idx === 2) rankBadge = '🥉';
+
+                return `
+                    <tr class="hover:bg-slate-50/80 transition">
+                        <td class="p-3.5 text-center text-lg font-bold">${rankBadge}</td>
+                        <td class="p-3.5 font-bold text-slate-800">${student.name}</td>
+                        <td class="p-3.5 text-center font-bold text-slate-600">${student.section}</td>
+                        <td class="p-3.5 text-center">
+                            <span class="px-2.5 py-0.5 text-xs rounded-full border ${stats.level.badge}">
+                                ${stats.level.title}
+                            </span>
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <span class="font-bold text-emerald-600">${stats.percentage}%</span>
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.5 rounded-full">
+                                ${stats.badges.length} شارة
+                            </span>
+                        </td>
+                        <td class="p-3.5 text-center font-black text-qatar-maroon text-base">${stats.totalPoints}</td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="openStudentDetailModal(${student.id})" class="text-qatar-maroon hover:bg-qatar-light px-2.5 py-1 rounded-lg font-bold text-xs transition">
+                                تعديل
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderAnalytics() {
+            if (state.students.length === 0) return;
+
+            const averages = {};
+            EVALUATION_CRITERIA.forEach(c => {
+                const sum = state.students.reduce((acc, st) => acc + (st.scores ? (st.scores[c.id] || 0) : 0), 0);
+                averages[c.id] = (sum / state.students.length).toFixed(1);
+            });
+
+            const barContainer = document.getElementById('assessments-bars-container');
+            const mainAssessments = [
+                { id: 'assess1', label: 'التقييم الأول' },
+                { id: 'assess2', label: 'التقييم الثاني' },
+                { id: 'assess3', label: 'التقييم الثالث' },
+                { id: 'partic', label: 'متوسط المشاركة' },
+                { id: 'focus', label: 'متوسط الانتباه' },
+                { id: 'homework', label: 'متوسط حل الواجبات' }
+            ];
+
+            barContainer.innerHTML = mainAssessments.map(item => {
+                const val = averages[item.id] || 0;
+                const pct = (val / 10) * 100;
+                return `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>${item.label}</span>
+                            <span class="text-qatar-maroon font-black">${val} / 10</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                            <div class="bg-qatar-maroon h-3 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            let lowestCrit = EVALUATION_CRITERIA[0];
+            let minVal = 10;
+            EVALUATION_CRITERIA.forEach(c => {
+                if (parseFloat(averages[c.id]) < minVal) {
+                    minVal = parseFloat(averages[c.id]);
+                    lowestCrit = c;
+                }
+            });
+
+            const recBox = document.getElementById('analytics-recommendations');
+            recBox.innerHTML = `
+                <p>• يُلاحظ أن أعلى محاور الأداء لجميع الشعب هي التقييمات التحريرية والتزام الطلاب بقطع خطى ممتازة.</p>
+                <p>• المحور الذي يوصى بالتركيز عليه لدى المدرس هذا الأسبوع هو: <strong class="text-qatar-gold underline">${lowestCrit.label}</strong> بمتوسط (${minVal}/10).</p>
+                <p>• يُقترح تنفيذ نشاط تحفيزي جماعي ومكافأة الطلاب الأكثر تحسناً بالنواحي السلوكية والأكاديمية.</p>
+            `;
+
+            renderRadarChart(averages);
+        }
+
+        function renderRadarChart(averages) {
+            const ctx = document.getElementById('chart-radar');
+            if (!ctx) return;
+
+            if (radarChartInstance) radarChartInstance.destroy();
+
+            const labels = EVALUATION_CRITERIA.map(c => c.label);
+            const dataValues = EVALUATION_CRITERIA.map(c => averages[c.id]);
+
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'متوسط أداء الصف',
+                        data: dataValues,
+                        backgroundColor: 'rgba(138, 21, 56, 0.2)',
+                        borderColor: '#8A1538',
+                        pointBackgroundColor: '#D4AF37',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#8A1538'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: { font: { family: 'Cairo', size: 10 } },
+                            min: 0,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function openStudentDetailModal(studentId) {
+            const student = state.students.find(s => s.id === studentId);
+            if (!student) return;
+
+            state.currentStudentId = studentId;
+            const stats = calculateStudentStats(student);
+
+            document.getElementById('modal-student-avatar').innerText = student.name.charAt(0);
+            document.getElementById('modal-student-header-name').innerText = student.name;
+            document.getElementById('modal-student-section-badge').innerText = `شعبة ${student.section}`;
+            document.getElementById('modal-student-level').innerText = stats.level.title;
+
+            // Populate Main Editable Controls
+            document.getElementById('edit-student-name-input').value = student.name;
+            document.getElementById('edit-student-section-select').value = student.section || '8/5';
+            document.getElementById('edit-student-bonus-input').value = student.bonusPoints || 0;
+
+            document.getElementById('modal-assess-avg').innerText = `${stats.assessAvg} / 10`;
+            document.getElementById('modal-behavior-avg').innerText = `${stats.behaviorAvg} / 10`;
+
+            const badgesBox = document.getElementById('modal-badges-container');
+            badgesBox.innerHTML = stats.badges.length > 0 
+                ? stats.badges.map(b => `<span class="px-3 py-1 rounded-full text-xs font-bold border ${b.color}">${b.name}</span>`).join('')
+                : '<span class="text-xs text-slate-400">لا توجد شارات مكتسبة بعد.</span>';
+
+            // Populate Criteria Inputs with Range Sliders + Direct Numeric Inputs
+            const inputsContainer = document.getElementById('modal-criteria-inputs');
+            inputsContainer.innerHTML = EVALUATION_CRITERIA.map(c => {
+                const currentVal = (student.scores && student.scores[c.id] !== undefined) ? student.scores[c.id] : 8;
+                return `
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <label class="text-xs font-bold text-slate-700">${c.label}:</label>
+                        <div class="flex items-center gap-2">
+                            <input type="range" id="slider-${c.id}" min="0" max="10" step="1" value="${currentVal}" 
+                                oninput="updateCriteriaInputValue('${c.id}', this.value)" 
+                                class="w-24 accent-qatar-maroon cursor-pointer">
+                            <input type="number" id="crit-input-${c.id}" min="0" max="10" value="${currentVal}"
+                                oninput="updateCriteriaSliderValue('${c.id}', this.value)"
+                                class="w-12 text-center text-xs font-black text-qatar-maroon bg-white py-1 border border-slate-300 rounded-lg">
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('modal-notes-textarea').value = student.notes || '';
+
+            openModal('modal-student-detail');
+        }
+
+        function updateCriteriaInputValue(critId, val) {
+            const numInput = document.getElementById(`crit-input-${critId}`);
+            if (numInput) numInput.value = val;
+        }
+
+        function updateCriteriaSliderValue(critId, val) {
+            let parsed = parseInt(val) || 0;
+            if (parsed > 10) parsed = 10;
+            if (parsed < 0) parsed = 0;
+            const slider = document.getElementById(`slider-${critId}`);
+            if (slider) slider.value = parsed;
+        }
+
+        function saveStudentChanges() {
+            if (!state.currentStudentId) return;
+
+            const student = state.students.find(s => s.id === state.currentStudentId);
+            if (!student) return;
+
+            // Save Name, Section, and Bonus Points
+            const newName = document.getElementById('edit-student-name-input').value.trim();
+            const newSection = document.getElementById('edit-student-section-select').value;
+            const newBonus = parseInt(document.getElementById('edit-student-bonus-input').value) || 0;
+
+            if (!newName) {
+                showToast("يرجى إدخال اسم الطالب بشكل صحيح.");
+                return;
+            }
+
+            student.name = newName;
+            student.section = newSection;
+            student.bonusPoints = Math.max(0, newBonus);
+
+            // Save all 12 evaluation scores
+            if (!student.scores) student.scores = {};
+            EVALUATION_CRITERIA.forEach(c => {
+                const elem = document.getElementById(`crit-input-${c.id}`);
+                if (elem) {
+                    let val = parseInt(elem.value);
+                    if (isNaN(val)) val = 8;
+                    val = Math.max(0, Math.min(10, val));
+                    student.scores[c.id] = val;
+                }
+            });
+
+            // Save Teacher Notes
+            student.notes = document.getElementById('modal-notes-textarea').value.trim();
+
+            saveState();
+            renderApp();
+            closeModal('modal-student-detail');
+            showToast("تم حفظ جميع تعديلات الطالب بنجاح!");
+        }
+
+        function regenerateNotesForCurrentStudent() {
+            const tempScores = {};
+            EVALUATION_CRITERIA.forEach(c => {
+                const elem = document.getElementById(`crit-input-${c.id}`);
+                if (elem) tempScores[c.id] = parseInt(elem.value) || 8;
+            });
+            document.getElementById('modal-notes-textarea').value = generateSmartNotes(tempScores);
+        }
+
+        function addBonusPointToCurrentStudent(pts, reason) {
+            const bonusInput = document.getElementById('edit-student-bonus-input');
+            if (bonusInput) {
+                let curr = parseInt(bonusInput.value) || 0;
+                bonusInput.value = curr + pts;
+            }
+            triggerConfetti();
+            showToast(`تم إضافة +${pts} نقطة (${reason}) - اضغط حفظ الاعتماد التغييرات!`);
+        }
+
+        function quickAddPoints(studentId, pts) {
+            const student = state.students.find(s => s.id === studentId);
+            if (!student) return;
+            student.bonusPoints = (student.bonusPoints || 0) + pts;
+            saveState();
+            renderApp();
+            triggerConfetti();
+            showToast(`تمت إضافة +${pts} نقاط للطالب ${student.name}`);
+        }
+
+        function deleteCurrentStudent() {
+            if (!state.currentStudentId) return;
+            state.students = state.students.filter(s => s.id !== state.currentStudentId);
+            saveState();
+            renderApp();
+            closeModal('modal-student-detail');
+            showToast("تم حذف الطالب من السجل.");
+        }
+
+        function openAddStudentModal() {
+            document.getElementById('add-name-input').value = '';
+            openModal('modal-add-student');
+        }
+
+        function handleAddStudentSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('add-name-input').value.trim();
+            const section = document.getElementById('add-section-select').value;
+
+            if (!name) return;
+
+            const newStudent = createMockStudentRecord(Date.now(), name, section);
+            state.students.push(newStudent);
+            saveState();
+            renderApp();
+            closeModal('modal-add-student');
+            showToast("تمت إضافة الطالب بنجاح إلى السجل!");
+        }
+
+        function openPresenterModal() {
+            if (state.students.length === 0) {
+                showToast("لا يوجد طلاب لعرضهم.");
+                return;
+            }
+            openPresenterForStudent(state.students[0].id);
+            openModal('modal-presenter');
+        }
+
+        function openPresenterForStudent(studentId) {
+            const student = state.students.find(s => s.id === studentId);
+            if (!student) return;
+
+            const stats = calculateStudentStats(student);
+
+            document.getElementById('pres-student-name').innerText = student.name;
+            document.getElementById('pres-student-section').innerText = `شعبة ${student.section}`;
+            document.getElementById('pres-student-level').innerText = stats.level.title;
+            document.getElementById('pres-student-points').innerText = `⭐ ${stats.totalPoints} نقطة`;
+
+            const randomSlogan = MOTIVATIONAL_SLOGANS[Math.floor(Math.random() * MOTIVATIONAL_SLOGANS.length)];
+            document.getElementById('pres-motivational-quote').innerText = `"${randomSlogan}"`;
+
+            const badgesBox = document.getElementById('pres-badges-container');
+            badgesBox.innerHTML = stats.badges.map(b => `
+                <span class="px-4 py-1.5 rounded-full text-sm font-bold border ${b.color} shadow">
+                    ${b.name}
+                </span>
+            `).join('');
+
+            const selectorBox = document.getElementById('presenter-quick-selector');
+            selectorBox.innerHTML = state.students.map(st => `
+                <button onclick="openPresenterForStudent(${st.id})" class="px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition ${st.id === student.id ? 'bg-qatar-gold text-slate-950 font-black' : 'bg-white/10 hover:bg-white/20 text-white'}">
+                    ${st.name.split(' ')[0]}
+                </button>
+            `).join('');
+
+            openModal('modal-presenter');
+        }
+
+        function triggerRandomStudentWheel() {
+            if (state.students.length === 0) return;
+            const randIndex = Math.floor(Math.random() * state.students.length);
+            const randomStudent = state.students[randIndex];
+            
+            const card = document.getElementById('presenter-card');
+            card.classList.add('scale-95', 'opacity-50');
+            setTimeout(() => {
+                openPresenterForStudent(randomStudent.id);
+                card.classList.remove('scale-95', 'opacity-50');
+                triggerConfetti();
+            }, 300);
+        }
+
+        function openExcelModal() {
+            openModal('modal-excel');
+        }
+
+        function handleExcelImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    const importedStudents = [];
+                    let globalIdx = 0;
+
+                    workbook.SheetNames.forEach(sheetName => {
+                        const worksheet = workbook.Sheets[sheetName];
+                        
+                        // Parse as raw 2D array for maximum flexibility
+                        const rawMatrix = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
+
+                        let defaultSection = "8/5";
+                        const cleanSheet = sheetName.toLowerCase();
+                        if (cleanSheet.includes("6") || cleanSheet.includes("8/6") || cleanSheet.includes("8-6")) defaultSection = "8/6";
+                        else if (cleanSheet.includes("7") || cleanSheet.includes("8/7") || cleanSheet.includes("8-7")) defaultSection = "8/7";
+                        else if (cleanSheet.includes("5") || cleanSheet.includes("8/5") || cleanSheet.includes("8-5")) defaultSection = "8/5";
+
+                        rawMatrix.forEach(row => {
+                            if (!Array.isArray(row)) return;
+
+                            row.forEach(cell => {
+                                if (typeof cell === 'string') {
+                                    const cleaned = cell.trim();
+                                    // Check if cell looks like a student name (Arabic full name without system keywords)
+                                    if (cleaned.length >= 6 && 
+                                        cleaned.includes(' ') && 
+                                        !cleaned.includes('مدرسة') && 
+                                        !cleaned.includes('قسم') && 
+                                        !cleaned.includes('الصف') && 
+                                        !cleaned.includes('اسم الطالب') && 
+                                        !cleaned.includes('التقييم') && 
+                                        !cleaned.includes('المادة')) {
+                                        
+                                        globalIdx++;
+                                        importedStudents.push(createMockStudentRecord(Date.now() + globalIdx, cleaned, defaultSection));
+                                    }
+                                }
+                            });
+                        });
+                    });
+
+                    if (importedStudents.length > 0) {
+                        state.students = importedStudents;
+                        saveState();
+                        renderApp();
+                        closeModal('modal-excel');
+                        showToast(`تم استيراد ${importedStudents.length} طالباً بنجاح واستبدال القوائم بها!`);
+                    } else {
+                        showToast("لم نتمكن من التعرف على الأسماء في الملف، تأكد من اختيار ملف Excel صالح.");
+                    }
+                } catch(err) {
+                    console.error("Excel Read Error:", err);
+                    showToast("حدث خطأ أثناء قراءة ملف Excel.");
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function downloadExcelTemplate() {
+            const templateData = [
+                { "اسم الطالب": "ابراهيم احمد ابراهيم الحسن المهندي", "الشعبة": "8/5" },
+                { "اسم الطالب": "احمد ناصر احمد البريد الحميدي", "الشعبة": "8/6" },
+                { "اسم الطالب": "المهند ابراهيم سليم الضرابعه", "الشعبة": "8/7" }
+            ];
+            const ws = XLSX.utils.json_to_sheet(templateData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "نموذج_الطلاب");
+            XLSX.writeFile(wb, "نموذج_استيراد_طلاب_الرياضيات.xlsx");
+        }
+
+        function exportToExcel() {
+            if (state.students.length === 0) {
+                showToast("لا توجد بيانات للتصدير.");
+                return;
+            }
+
+            const exportRows = state.students.map(st => {
+                const stats = calculateStudentStats(st);
+                return {
+                    "اسم الطالب": st.name,
+                    "الشعبة": st.section,
+                    "التقييم الأول": st.scores.assess1,
+                    "التقييم الثاني": st.scores.assess2,
+                    "التقييم الثالث": st.scores.assess3,
+                    "المشاركة الفعالة": st.scores.partic,
+                    "إحضار الأدوات": st.scores.tools,
+                    "الانتباه والتركيز": st.scores.focus,
+                    "عدم الكلام أثناء الشرح": st.scores.notalking,
+                    "عدم النوم داخل الحصة": st.scores.nosleeping,
+                    "الالتزام بالواجبات": st.scores.homework,
+                    "التفاعل مع المعلم": st.scores.interaction,
+                    "التعاون مع الزملاء": st.scores.cooperation,
+                    "المحافظة على النظام": st.scores.discipline,
+                    "النقاط الإضافية": st.bonusPoints || 0,
+                    "مجموع النقاط": stats.totalPoints,
+                    "نسبة الإنجاز": `${stats.percentage}%`,
+                    "المستوى": stats.level.title,
+                    "ملاحظات المعلم": st.notes
+                };
+            });
+
+            const ws = XLSX.utils.json_to_sheet(exportRows);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "سجل_التميز_والتحفيز");
+            XLSX.writeFile(wb, "سجل_التميز_والتحفيز_قسم_الرياضيات.xlsx");
+            showToast("تم تصدير ملف Excel بنجاح!");
+        }
+
+        function backupDataJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.students, null, 2));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", "نسخة_احتياطية_سجل_الرياضيات.json");
+            dlAnchorElem.click();
+            showToast("تم تحميل النسخة الاحتياطية.");
+        }
+
+        function restoreDataJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (Array.isArray(parsed)) {
+                        state.students = parsed;
+                        saveState();
+                        renderApp();
+                        closeModal('modal-excel');
+                        showToast("تمت استعادة البيانات بنجاح!");
+                    }
+                } catch(err) {
+                    showToast("الملف غير صالح لاستعادة البيانات.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = 'nav-btn bg-qatar-dark/60 hover:bg-white/20 text-white font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-2 text-sm border border-white/10';
+            });
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = 'nav-btn bg-white text-qatar-maroon font-bold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-sm';
+            }
+
+            if (tabId === 'analytics') {
+                setTimeout(renderAnalytics, 100);
+            }
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function showToast(message) {
+            let toast = document.getElementById('custom-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'custom-toast';
+                toast.className = 'fixed bottom-5 left-5 bg-slate-900 text-white font-bold text-sm px-4 py-3 rounded-2xl shadow-2xl z-50 transition transform translate-y-10 opacity-0 flex items-center gap-2 border border-slate-700';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-base"></i> ${message}`;
+            toast.classList.remove('translate-y-10', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
